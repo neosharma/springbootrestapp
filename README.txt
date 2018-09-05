@@ -14,5 +14,9 @@ Step 4: Create the docker image of the rest app
 docker build -t myrestapp .
 
 Step 5: Run the rest app in a container
-docker run -p 8080:8080 -d --link db:mysql myrestapp
+docker run -p 8080:8080 --name restapp1 -d --link db:mysql myrestapp
+docker run -p 8081:8080 --name restapp2 -d --link db:mysql myrestapp
+docker run -p 8082:8080 --name restapp3 -d --link db:mysql myrestapp
 
+Step 6: Load balance docker container nodes
+docker run -p 80:80 -p 8086:1936 -d --name my-loadbalancer --add-host=docker:192.168.1.121 -v /Users/mssharma/haproxy:/usr/local/etc/haproxy:ro haproxy:1.7
